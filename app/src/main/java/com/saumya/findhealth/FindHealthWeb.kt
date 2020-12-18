@@ -2,19 +2,46 @@ package com.saumya.findhealth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.webkit.WebChromeClient
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
 class FindHealthWeb : AppCompatActivity() {
+
+    private lateinit var fhWebView:WebView;
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_health_web)
 
-        var sURL = "https://findhealth.today"
+        //Log.v("RAY", "FindHealthWeb : ----------------")
+        this.fhWebView = findViewById<WebView>(R.id.fhWeb)
+        setWebview()
+    }
+
+    // Making the Android Back Button to take a web browser go back in the history
+    // Ref: https://www.youtube.com/watch?v=v6TVbKbfopk
+    //
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        //Log.v("RAY", "onBackPressed : --------------------")
+        if( fhWebView.canGoBack() ){
+            fhWebView.goBack()
+        }else{
+            super.onBackPressed()
+        }
+    }
+
+
+    private fun setWebview(){
+
+        //val fhWebView: WebView = findViewById<WebView>(R.id.fhWeb)
+        //var sURL = "https://findhealth.today"
+        var sURL = "https://www.google.com"
         var sView = intent.getStringExtra("view")
 
-        val fhWebView = findViewById<WebView>(R.id.fhWeb)
+        //val fhWebView = findViewById<WebView>(R.id.fhWeb)
         fhWebView.settings.javaScriptEnabled = true
         fhWebView.settings.allowContentAccess = true
         fhWebView.settings.allowFileAccess = true
@@ -33,5 +60,8 @@ class FindHealthWeb : AppCompatActivity() {
         }
 
         fhWebView.loadUrl(sURL)
+
+
     }
 }
+
